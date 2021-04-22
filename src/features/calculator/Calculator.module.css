@@ -1,0 +1,21 @@
+.grid {
+    display: flex;
+    flex-direction: column;
+    max-width: 450px;
+}
+
+.buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto;
+
+}
+
+.btn {
+}
+
+.display {
+}
+
+.operand {
+}
