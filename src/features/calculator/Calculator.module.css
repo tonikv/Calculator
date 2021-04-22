@@ -1,7 +1,9 @@
-.grid {
+.container {
     display: flex;
     flex-direction: column;
+    justify-content: center;
     max-width: 450px;
+    margin: 20px 10px 0 20px;
 }
 
 .buttons {
@@ -12,10 +14,32 @@
 }
 
 .btn {
+    height: 60px;
 }
 
 .display {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    background-color: black;
+    height: 100px;
+}
+
+.calculation {
+    color: white;
+    position: absolute;
+    left: 5px;
+    top: -35px;
+    font-size: xx-large;
+}
+
+.result {
+    color: white;
+    right: 5px;
+    top: 50px;
+    position: absolute;
 }
 
 .operand {
+    height: 60px;
 }

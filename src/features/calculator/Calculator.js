@@ -19,9 +19,11 @@ export function Calculator() {
     const dispatch = useDispatch();
 
     return (
-        <div className={styles.grid}>
-            <p className={styles.display}>{calculation !== "" ? calculation : display}</p>
-            <h4 className={styles.display}>{number} tulos: {result}</h4>
+        <div className={styles.container}>
+            <div className={styles.display}>
+                <p className={styles.calculation}>{calculation !== "" ? calculation : display}</p>
+                <h4 className={styles.result}>{result}</h4>
+            </div>
 
             <div className={styles.buttons}>
                 <button className={styles.btn} onClick={() => dispatch(checkInput("7"))}>7</button>
