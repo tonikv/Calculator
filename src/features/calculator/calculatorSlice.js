@@ -3,9 +3,9 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     number: "",         // Current number input
     calculation: "",    // Keep track of the whole calculation input
-    display: "",        // For display 
+    display: "0",        // For display 
     operand: "",        // Which calculation to perform
-    result: "",          // Result of the calculation
+    result: "0",          // Result of the calculation
 }
 
 export const calculatorSlice = createSlice ({
@@ -50,10 +50,10 @@ export const selectResult = (state) => state.calculator.result;
 export const selectNumber = (state) => state.calculator.number;
 export const selectDisplay = (state) => state.calculator.display;
 
-
 export const checkOperand = (input) => (dispatch, getState) => {
     const operand = selectOperand(getState());
     const number = selectNumber(getState());
+    // if operand is first input ignore it
     if (number.length === 0) {
         console.log("input number first")
         return
@@ -69,20 +69,19 @@ export const checkOperand = (input) => (dispatch, getState) => {
 export const checkInput = (input) => (dispatch, getState) => {
     const number = selectNumber(getState());
     // Check zero
-    // if zero is first input ignore it
+    // if zero is first input  -> ignore it
     if (input ==="0" && number.length === 0) {
         console.log("do not add leading zeros")
         return
     } 
-
     // Check for period
-    // If period is first input
+    // If period is first input -> add zero before it
     if (input === "." && number === "") {
         dispatch(addNumber("0."));
         dispatch(addToCalculation("0."))
         return
     }
-    // if period is allready added
+    // if period is already added -> ignore input
     if (input === "." && number.includes(".")) {
         console.log("cannot add second period");
     } else {

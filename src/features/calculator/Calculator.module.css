@@ -1,51 +1,61 @@
+:root {
+    font-family: 'Orbitron', sans-serif;
+}
+
+
 body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    background-color: rgb(18, 53, 150);
 }
 
 .container {
+    padding: 20px;
     display: flex;
     flex-direction: column;
     justify-content: center;
     max-width: 450px;
-    margin: 20px 10px 0 20px;
 }
 
 .buttons {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
     grid-template-rows: auto;
-
 }
 
 .btn {
     height: 60px;
+    font-size: x-large;
 }
 
 .display {
     display: flex;
     position: relative;
     flex-direction: column;
-    background-color: black;
+    background-color: rgb(1, 0, 36);
     height: 100px;
 }
 
 .calculation {
     color: white;
     position: absolute;
-    left: 5px;
-    top: -35px;
+    left: 10px;
+    top: -25px;
     font-size: xx-large;
+    word-wrap: break-word;
+    overflow: auto;
 }
 
 .result {
     color: white;
-    right: 5px;
-    top: 50px;
+    right: 10px;
+    top: 30px;
     position: absolute;
+    font-size: x-large;
 }
 
 .operand {
     height: 60px;
+    font-size: x-large;
 }
