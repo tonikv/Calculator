@@ -4,7 +4,6 @@ import {
     calculateResult,
     checkInput,
     checkOperand,
-    selectNumber,
     selectResult,
     selectCalculation,
     selectDisplay,
@@ -12,7 +11,6 @@ import {
 import styles from './Calculator.module.css';
 
 export function Calculator() {
-    const number = useSelector(selectNumber);
     const result = useSelector(selectResult);
     const calculation = useSelector(selectCalculation);
     const display = useSelector(selectDisplay);

@@ -53,16 +53,27 @@ export const selectDisplay = (state) => state.calculator.display;
 
 export const checkOperand = (input) => (dispatch, getState) => {
     const operand = selectOperand(getState());
+    const number = selectNumber(getState());
+    if (number.length === 0) {
+        console.log("input number first")
+        return
+    }
     
     if (operand.length === 0) {
         dispatch(chooseOperand(input))
-        dispatch(addToCalculation(input))
+        dispatch(addToCalculation(" " + input + " "))
         dispatch(clearNumber());
     }
 }
 
 export const checkInput = (input) => (dispatch, getState) => {
     const number = selectNumber(getState());
+    // Check zero
+    // if zero is first input ignore it
+    if (input ==="0" && number.length === 0) {
+        console.log("do not add leading zeros")
+        return
+    } 
 
     // Check for period
     // If period is first input
