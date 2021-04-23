@@ -1,32 +1,55 @@
-:root {
-    font-family: 'Orbitron', sans-serif;
+@font-face {
+    font-family: myFirstFont;
+    src: url(D:\Projects\FreeCodeCamp\calculator_redux\src\fonts\Orbitron-Regular.ttf);
 }
-
 
 body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
     background-color: rgb(18, 53, 150);
+    font-family: myFirstFont, sans-serif;
 }
 
 .container {
-    padding: 20px;
+    padding: 2px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    max-width: 450px;
+    min-width: 500px;
 }
 
 .buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(4, 3fr);
     grid-template-rows: auto;
+    background-color: rgb(231, 227, 227);
+    gap: 2px;
+    padding:5px;
 }
 
 .btn {
-    height: 60px;
+    height: 100px;
     font-size: x-large;
+    font-family: myFirstFont, sans-serif;
+}
+
+.spantwo {
+    background-color: rgb(52, 199, 22);
+    grid-column-start: span 2;
+}
+
+.spantwo:hover {
+    background-color: rgb(36, 131, 17);
+}
+
+.red {
+    background-color: rgb(199, 22, 22);
+    color: white;
+}
+
+.red:hover {
+    background-color: rgb(126, 14, 14);
 }
 
 .display {
@@ -34,28 +57,39 @@ body {
     position: relative;
     flex-direction: column;
     background-color: rgb(1, 0, 36);
-    height: 100px;
+    height: 140px;
 }
 
 .calculation {
     color: white;
     position: absolute;
+    max-width: 480px;
     left: 10px;
     top: -25px;
     font-size: xx-large;
     word-wrap: break-word;
-    overflow: auto;
+    white-space:normal;
+    overflow-wrap: break-word;
 }
 
 .result {
     color: white;
     right: 10px;
-    top: 30px;
+    top: 70px;
     position: absolute;
     font-size: x-large;
 }
 
 .operand {
-    height: 60px;
+    height: 80px;
     font-size: x-large;
+}
+
+.footer {
+    display: block;
+    text-align: center;
+    max-width: inherit;
+    padding: 10px 0 10px 0;
+    background-color: rgb(1, 0, 36);
+    color:white;
 }

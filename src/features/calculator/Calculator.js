@@ -4,9 +4,12 @@ import {
     calculateResult,
     checkInput,
     checkOperand,
+    checkDelete,
     selectResult,
     selectCalculation,
     selectDisplay,
+    allClear,
+    checkANS,
 } from './calculatorSlice';
 import styles from './Calculator.module.css';
 
@@ -27,25 +30,28 @@ export function Calculator() {
                 <button className={styles.btn} onClick={() => dispatch(checkInput("7"))}>7</button>
                 <button className={styles.btn} onClick={() => dispatch(checkInput("8"))}>8</button>
                 <button className={styles.btn} onClick={() => dispatch(checkInput("9"))}>9</button>
-                <button className={styles.operand} onClick={() => dispatch(checkOperand("+"))}>+</button>
+                <button className={styles.btn} onClick={() => dispatch(checkOperand("+"))}>+</button>
 
                 <button className={styles.btn} onClick={() => dispatch(checkInput("4"))}>4</button>
                 <button className={styles.btn} onClick={() => dispatch(checkInput("5"))}>5</button>
                 <button className={styles.btn} onClick={() => dispatch(checkInput("6"))}>6</button>
-                <button className={styles.operand} onClick={() => dispatch(checkOperand("-"))}>-</button>
+                <button className={styles.btn} onClick={() => dispatch(checkOperand("-"))}>-</button>
 
                 <button className={styles.btn} onClick={() => dispatch(checkInput("1"))}>1</button>
                 <button className={styles.btn} onClick={() => dispatch(checkInput("2"))}>2</button>
                 <button className={styles.btn} onClick={() => dispatch(checkInput("3"))}>3</button>
-                <button className={styles.operand} onClick={() => dispatch(checkOperand("x"))}>x</button>
+                <button className={styles.btn} onClick={() => dispatch(checkOperand("x"))}>x</button>
 
                 <button className={styles.btn} onClick={() => dispatch(checkInput("0"))}>0</button>
                 <button className={styles.btn} onClick={() => dispatch(checkInput("."))}>.</button>
-                <button className={styles.btn}></button>
-                <button className={styles.operand} onClick={() => dispatch(checkOperand("%"))}>%</button>
-
-                <button className={styles.operand} onClick={() => dispatch(calculateResult())}>=</button>
+                <button className={styles.btn} onClick={() => dispatch(checkANS(result))}>ANS</button>
+                <button className={styles.btn} onClick={() => dispatch(checkOperand("÷"))}>÷</button>
+                
+                <button className={`${styles.btn} ${styles.red}`} onClick={() => dispatch(checkDelete())}>DEL</button>
+                <button className={`${styles.btn} ${styles.red}`}onClick={() => dispatch(allClear())}>AC</button>
+                <button className={`${styles.btn} ${styles.spantwo}`} onClick={() => dispatch(calculateResult())}>=</button>
             </div>
+            <div className={styles.footer}> Calculator by tonikv </div>
         </div>
     )
 }
