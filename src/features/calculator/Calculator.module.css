@@ -16,7 +16,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-width: 500px;
+    min-width: 340px;
 }
 
 .buttons {
@@ -29,7 +29,7 @@ body {
 }
 
 .btn {
-    height: 100px;
+    height: 80px;
     font-size: x-large;
     font-family: myFirstFont, sans-serif;
 }
