@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/Calculator/static/css/main.01796534.chunk.css",
+    "main.css": "/Calculator/static/css/main.ce4d90b1.chunk.css",
     "main.js": "/Calculator/static/js/main.ae75e6af.chunk.js",
     "main.js.map": "/Calculator/static/js/main.ae75e6af.chunk.js.map",
     "runtime-main.js": "/Calculator/static/js/runtime-main.ca4394dc.js",
@@ -8,14 +8,14 @@
     "static/js/2.5a5bdedf.chunk.js": "/Calculator/static/js/2.5a5bdedf.chunk.js",
     "static/js/2.5a5bdedf.chunk.js.map": "/Calculator/static/js/2.5a5bdedf.chunk.js.map",
     "index.html": "/Calculator/index.html",
-    "static/css/main.01796534.chunk.css.map": "/Calculator/static/css/main.01796534.chunk.css.map",
+    "static/css/main.ce4d90b1.chunk.css.map": "/Calculator/static/css/main.ce4d90b1.chunk.css.map",
     "static/js/2.5a5bdedf.chunk.js.LICENSE.txt": "/Calculator/static/js/2.5a5bdedf.chunk.js.LICENSE.txt",
     "static/media/Calculator.module.css": "/Calculator/static/media/Orbitron-Regular.782e6861.ttf"
   },
   "entrypoints": [
     "static/js/runtime-main.ca4394dc.js",
     "static/js/2.5a5bdedf.chunk.js",
-    "static/css/main.01796534.chunk.css",
+    "static/css/main.ce4d90b1.chunk.css",
     "static/js/main.ae75e6af.chunk.js"
   ]
 }
