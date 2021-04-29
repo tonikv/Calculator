@@ -3,9 +3,10 @@ import { createSlice } from '@reduxjs/toolkit';
 const initialState = {
     number: "",         // Current number input
     calculation: "",    // Keep track of the whole calculation input
-    display: "0",        // For display 
+    display: "",        // For display 
     operand: "",        // Which calculation to perform
-    result: "0",          // Result of the calculation
+    result: "",         // Result of the calculation
+    previous: "",       
 }
 
 export const calculatorSlice = createSlice ({
@@ -14,6 +15,9 @@ export const calculatorSlice = createSlice ({
     reducers: {
         addNumber: (state, action) => {
             state.number += action.payload;
+        },
+        addPrevious: (state, action) => {
+            state.previous = action.payload;
         },
         clearNumber: (state) => {
             state.number = "";
@@ -38,7 +42,7 @@ export const calculatorSlice = createSlice ({
             state.display = action.payload;
         },
         clearDisplay: (state) => {
-            state.display = "0"
+            state.display = ""
         },
         chooseOperand: (state, action) => {
             state.operand = action.payload;
@@ -55,13 +59,14 @@ export const calculatorSlice = createSlice ({
     }
 })
 
-export const { allClear, addNumber, clearNumber, addToDisplay, clearDisplay, addToCalculation, removeFromCalculation, clearCalculation, chooseOperand, clearOperand, compute, clearCompute } = calculatorSlice.actions;
+export const { allClear, addNumber, addPrevious, clearNumber, addToDisplay, clearDisplay, addToCalculation, removeFromCalculation, clearCalculation, chooseOperand, clearOperand, compute, clearCompute } = calculatorSlice.actions;
 
 export const selectCalculation = (state) => state.calculator.calculation;
 export const selectOperand = (state) => state.calculator.operand;
 export const selectResult = (state) => state.calculator.result;
 export const selectNumber = (state) => state.calculator.number;
 export const selectDisplay = (state) => state.calculator.display;
+export const selectPrevious = (state) => state.calculator.previous;
 
 export const checkANS = (result) => (dispatch, getState) => {
     dispatch(removeFromCalculation(result.toString()));
@@ -69,37 +74,15 @@ export const checkANS = (result) => (dispatch, getState) => {
 
 export const checkDelete = () => (dispatch, getState) => {
     const calculation = selectCalculation(getState());
-    dispatch(clearDisplay());
 
     // if there is nothing to delete -> ignore it
     if (calculation.length === 0) {
-        dispatch(clearNumber());
-        dispatch(clearOperand());
-        dispatch(clearDisplay());
         console.log("Cannot delete")
         return
     }
     
-    let lastLetter = calculation[calculation.length-1];
-    let newCalculation = "";
-    let regex = /\D/;
-
-    if (lastLetter === ".") {
-        newCalculation= calculation.slice(0, -1);
-        dispatch(removeFromCalculation(newCalculation))
-        return
-    }
-
-    if (regex.test(lastLetter)) {
-        newCalculation= calculation.slice(0, -3);
-        console.log("last digit is not number and new calculation:", newCalculation)
-        dispatch(clearOperand())
-        dispatch(removeFromCalculation(newCalculation))
-    } else {
-        newCalculation= calculation.slice(0, -1);
-        console.log("last digit is number and new calculation:", newCalculation)
-        dispatch(removeFromCalculation(newCalculation))
-    }
+    let newCalculation= calculation.slice(0, -1);
+    dispatch(removeFromCalculation(newCalculation))
 }
 
 export const checkOperand = (input) => (dispatch, getState) => {
@@ -119,69 +102,150 @@ export const checkOperand = (input) => (dispatch, getState) => {
 }
 
 export const checkInput = (input) => (dispatch, getState) => {
-    const number = selectNumber(getState());
+    const current = selectNumber(getState());
+    const previous = selectPrevious(getState());
     const calculation = selectCalculation(getState());
-    dispatch(clearDisplay());
+    const regex = /[x÷+-]/
 
-    if (calculation.length > 53) {
-        console.log("Too many inputs for the display")
+    if (previous === "0" && current.length === 1 && input === "0") {
+        console.log("prevent multiple zeroes in the beginning");
         return;
     }
-    // Check zero
-    // if zero is first input  -> ignore it
-    if (input ==="0" && number.length === 0) {
-        console.log("do not add leading zeros")
-        return
-    } 
-    // Check for period
-    // If period is first input -> add zero before it
-    if (input === "." && number === "") {
-        dispatch(addNumber("0."));
-        dispatch(addToCalculation("0."))
-        return
+
+    if (input === "." && current.includes(".")) {
+        console.log("prevent multiple decimals in one number");
+        return;
     }
-    // if period is already added -> ignore input
-    if (input === "." && number.includes(".")) {
-        console.log("cannot add second period");
+
+    if (regex.test(input) && regex.test(previous) && input !== "-") {
+        console.log("only one operand");
+        return;
+    }   
+
+    if (previous === "-" && input === "-" ) {
+        const twoDown = calculation[calculation.length-2];
+        if(twoDown === "-") {
+            console.log("Prevent triple ---");
+            return;
+        }
+        if(calculation.length === 1) {
+            console.log("Cannot start with --");
+            return;
+        }
+    }
+
+
+    if (regex.test(input)) {
+        dispatch(clearNumber());
     } else {
         dispatch(addNumber(input));
-        dispatch(addToCalculation(input))
     }
+
+    dispatch(addToCalculation(input));
+    dispatch(addPrevious(input));
 }
 
 export const calculateResult = () => (dispatch, getState) => {
-    const calculation = selectCalculation(getState());
+    const regex = /[x÷+-]/g
+    const regexDouble = /--|\+-|x-|÷-|[x÷+-]/g
+    let fixFirst = false;
+
+    let calculation = selectCalculation(getState());
+    // If there is not calculation --> Leave
     if (calculation.length === 0) {
         return
     }
-    const regex = /[x÷+-]/g
+
+    // Clean operands from the end 
+    const firstInCalculation = calculation[0];
+    const lastInCalculation = calculation[calculation.length-1];
+    if(lastInCalculation.match(regex)) {
+        calculation = calculation.slice(0, -1);
+    }
+
+    //Get negative numbers
+    if (firstInCalculation === "-") {
+        calculation = calculation.substring(1);
+        console.log("negatiivinen luku")
+        fixFirst = true;
+    }
+
+    const operands = calculation.match(regexDouble);
+    console.log("operands:", operands)
+
+    let cleanedCalc = calculation.replace(/--/g, "-");
+    cleanedCalc = cleanedCalc.replace(/\+-/g, "+");
+    cleanedCalc = cleanedCalc.replace(/x-/g, "x");
+    cleanedCalc = cleanedCalc.replace(/÷-/g, "÷");
+
+    console.log("cleaned calc:", cleanedCalc);
+
     let numbers = []
-    const operand = selectOperand(getState());
-    const inputs = calculation.split(regex);
+    const inputs = cleanedCalc.split(regex);
+
+    if(inputs.length === 1) {
+        dispatch(compute(inputs[0]));
+        return
+    }
+ 
     inputs.forEach(item => numbers.push(parseFloat(item)));
 
-    let result = 0.0;
-    switch (operand) {
-        case "+":
-            result = numbers[0] + numbers[1];
-            break;
-        case "-":
-            result = numbers[0] - numbers[1];
-            break;
-        case "x":
-            result = numbers[0] * numbers[1];
-            break;
-        case "÷":
-            result = numbers[0] / numbers[1];
-            break;
-        default:
-            break;
+    let first = numbers[0];
+    console.log("eka numero", first)
+    if (fixFirst) {
+        console.log("eka negatiivinen")
+        first = -first;
     }
-    dispatch(addToDisplay(calculation));
-    dispatch(clearCalculation());
-    dispatch(clearNumber());
-    dispatch(clearOperand());
-    dispatch(compute(result));
+    let calc = 0;
+
+    for (let i = 1; i < numbers.length; i++) {
+        let second = numbers[i];
+        let operand = operands[i - 1];
+        calc = first;
+        console.log(`${first} ${operand} ${second}`)
+
+        switch (operand){
+            case "+":
+                calc += second;
+                first = calc;
+                break;
+            case "-":
+                calc -= second;
+                first = calc;
+                break;
+            case "x":
+                calc *= second;
+                first = calc;
+                break;
+            case "÷":
+                calc /= second;
+                first = calc;
+                break;
+            case "+-":
+                calc += -second;
+                first = calc;
+                break;
+            case "--":
+                calc -= -second;
+                first = calc;
+                break;
+            case "x-":
+                calc *= -second;
+                first = calc;
+                break;
+            case "÷-":
+                calc /= -second;
+                first = calc;
+                break;
+            default:
+                break;
+            
+        }
+    }
+    console.log("calculaatio:", calc)
+    calc = calc.toFixed(2);
+    
+    dispatch(compute(calc.toString()));
 }
 
 export default calculatorSlice.reducer;
