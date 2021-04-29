@@ -22,7 +22,7 @@ export function Calculator() {
     return (
         <div className={styles.container}>
             <div className={styles.display}>
-                <p id="display" className={styles.calculation}>{calculation !== "" ? calculation : display}</p>
+                <p id="display" className={styles.calculation}>{calculation}</p>
                 <h4 className={styles.result}>{result}</h4>
             </div>
 

@@ -81,7 +81,7 @@ export const checkDelete = () => (dispatch, getState) => {
         return
     }
     
-    let newCalculation= calculation.slice(0, -1);
+    let newCalculation = calculation.slice(0, -1);
     dispatch(removeFromCalculation(newCalculation))
 }
 
@@ -149,36 +149,34 @@ export const calculateResult = () => (dispatch, getState) => {
     const regex = /[x÷+-]/g
     const regexDouble = /--|\+-|x-|÷-|[x÷+-]/g
     let fixFirst = false;
-
     let calculation = selectCalculation(getState());
+
     // If there is not calculation --> Leave
     if (calculation.length === 0) {
         return
     }
 
     // Clean operands from the end 
-    const firstInCalculation = calculation[0];
     const lastInCalculation = calculation[calculation.length-1];
     if(lastInCalculation.match(regex)) {
         calculation = calculation.slice(0, -1);
     }
 
-    //Get negative numbers
+    //Check first number for negative
+    const firstInCalculation = calculation[0];
     if (firstInCalculation === "-") {
         calculation = calculation.substring(1);
-        console.log("negatiivinen luku")
         fixFirst = true;
     }
 
+    // Extract operands from calculation
     const operands = calculation.match(regexDouble);
-    console.log("operands:", operands)
 
+    // Check for inputs like 25x-5 and clean away negative sign. Negative numbers are handled with operands
     let cleanedCalc = calculation.replace(/--/g, "-");
     cleanedCalc = cleanedCalc.replace(/\+-/g, "+");
     cleanedCalc = cleanedCalc.replace(/x-/g, "x");
     cleanedCalc = cleanedCalc.replace(/÷-/g, "÷");
-
-    console.log("cleaned calc:", cleanedCalc);
 
     let numbers = []
     const inputs = cleanedCalc.split(regex);
@@ -191,9 +189,8 @@ export const calculateResult = () => (dispatch, getState) => {
     inputs.forEach(item => numbers.push(parseFloat(item)));
 
     let first = numbers[0];
-    console.log("eka numero", first)
+    // If -negative sign at start fix firstnumber to negative
     if (fixFirst) {
-        console.log("eka negatiivinen")
         first = -first;
     }
     let calc = 0;
@@ -202,7 +199,6 @@ export const calculateResult = () => (dispatch, getState) => {
         let second = numbers[i];
         let operand = operands[i - 1];
         calc = first;
-        console.log(`${first} ${operand} ${second}`)
 
         switch (operand){
             case "+":
@@ -242,8 +238,9 @@ export const calculateResult = () => (dispatch, getState) => {
             
         }
     }
-    console.log("calculaatio:", calc)
-    calc = calc.toFixed(2);
+    if (calc % 1 !== 0) {
+        calc = calc.toFixed(2);
+    }
     
     dispatch(compute(calc.toString()));
 }
