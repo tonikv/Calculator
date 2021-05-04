@@ -3,26 +3,23 @@ import { useSelector, useDispatch } from 'react-redux';
 import {   
     calculateResult,
     checkInput,
-    checkOperand,
     checkDelete,
     selectResult,
     selectCalculation,
-    selectDisplay,
     allClear,
-    checkANS,
+    setCalculation,
 } from './calculatorSlice';
 import styles from './Calculator.module.css';
 
 export function Calculator() {
     const result = useSelector(selectResult);
     const calculation = useSelector(selectCalculation);
-    const display = useSelector(selectDisplay);
     const dispatch = useDispatch();
 
     return (
         <div className={styles.container}>
-            <div className={styles.display}>
-                <p id="display" className={styles.calculation}>{calculation}</p>
+            <div id="display" className={styles.display}>
+                <p className={styles.calculation}>{calculation}</p>
                 <h4 className={styles.result}>{result}</h4>
             </div>
 
@@ -40,18 +37,18 @@ export function Calculator() {
                 <button id="one" className={styles.btn} onClick={() => dispatch(checkInput("1"))}>1</button>
                 <button id="two" className={styles.btn} onClick={() => dispatch(checkInput("2"))}>2</button>
                 <button id="three" className={styles.btn} onClick={() => dispatch(checkInput("3"))}>3</button>
-                <button id="multiply" className={styles.btn} onClick={() => dispatch(checkInput("x"))}>x</button>
+                <button id="multiply" className={styles.btn} onClick={() => dispatch(checkInput("*"))}>*</button>
 
                 <button id="zero" className={styles.btn} onClick={() => dispatch(checkInput("0"))}>0</button>
                 <button id="decimal" className={styles.btn} onClick={() => dispatch(checkInput("."))}>.</button>
-                <button className={styles.btn} onClick={() => dispatch(checkANS(result))}>ANS</button>
-                <button id="divide" className={styles.btn} onClick={() => dispatch(checkInput("÷"))}>÷</button>
+                <button className={styles.btn} onClick={() => dispatch(setCalculation(result))}>ANS</button>
+                <button id="divide" className={styles.btn} onClick={() => dispatch(checkInput("/"))}>/</button>
                 
                 <button className={`${styles.btn} ${styles.red}`} onClick={() => dispatch(checkDelete())}>DEL</button>
                 <button id="clear" className={`${styles.btn} ${styles.red}`}onClick={() => dispatch(allClear())}>AC</button>
                 <button id="equals" className={`${styles.btn} ${styles.spantwo}`} onClick={() => dispatch(calculateResult())}>=</button>
             </div>
-            <div className={styles.footer}> Calculator by tonikv </div>
+            <a href="https://github.com/tonikv" target="_blank" rel="noreferrer" className={styles.footer}> Calculator by tonikv </a>
         </div>
     )
 }

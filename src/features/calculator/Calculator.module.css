@@ -7,7 +7,7 @@ body {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
-    background-color: rgb(18, 53, 150);
+    background-color: rgb(255, 255, 255);
     font-family: myFirstFont, sans-serif;
 }
 
@@ -16,7 +16,7 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-width: 340px;
+    max-width: 600px;
 }
 
 .buttons {
@@ -35,35 +35,35 @@ body {
 }
 
 .spantwo {
-    background-color: rgb(52, 199, 22);
+    background-color: rgb(0,255,0);
     grid-column-start: span 2;
 }
 
 .spantwo:hover {
-    background-color: rgb(36, 131, 17);
+    background-color: rgb(0,155,0);
 }
 
 .red {
-    background-color: rgb(199, 22, 22);
+    background-color: rgb(255,0,0);
     color: white;
 }
 
 .red:hover {
-    background-color: rgb(126, 14, 14);
+    background-color: rgb(155,0,0);
 }
 
 .display {
     display: flex;
     position: relative;
     flex-direction: column;
-    background-color: rgb(1, 0, 36);
+    background-color: rgb(3, 3, 49);
     height: 140px;
 }
 
 .calculation {
     color: white;
     position: absolute;
-    max-width: 480px;
+    max-width: 300px;
     left: 10px;
     top: -25px;
     font-size: xx-large;
@@ -90,6 +90,6 @@ body {
     text-align: center;
     max-width: inherit;
     padding: 10px 0 10px 0;
-    background-color: rgb(1, 0, 36);
-    color:white;
+    background-color: rgb(231, 227, 227);
+    color:black;
 }
